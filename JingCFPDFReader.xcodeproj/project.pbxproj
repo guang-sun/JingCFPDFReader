@@ -32,6 +32,8 @@
 		3F147F6F1E63F260008D4AE3 /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F147F6E1E63F260008D4AE3 /* BaseModel.m */; };
 		3F56D03B1E64016C007EA4BF /* PdfDetailCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F56D03A1E64016C007EA4BF /* PdfDetailCollectionViewLayout.m */; };
 		3F56D03E1E640381007EA4BF /* BookDetailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F56D03D1E640381007EA4BF /* BookDetailCollectionViewCell.m */; };
+		3F56D0431E6428FC007EA4BF /* BlockBaseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F56D0421E6428FC007EA4BF /* BlockBaseButton.m */; };
+		3F56D04C1E642ACE007EA4BF /* UIColor+JING.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F56D04B1E642ACE007EA4BF /* UIColor+JING.m */; };
 		CF5DE908F582BD2755DE97AF /* Pods_JingCFPDFReader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A2823D2B8F3654C58392855 /* Pods_JingCFPDFReader.framework */; };
 /* End PBXBuildFile section */
 
@@ -102,6 +104,10 @@
 		3F56D03A1E64016C007EA4BF /* PdfDetailCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PdfDetailCollectionViewLayout.m; sourceTree = "<group>"; };
 		3F56D03C1E640381007EA4BF /* BookDetailCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookDetailCollectionViewCell.h; sourceTree = "<group>"; };
 		3F56D03D1E640381007EA4BF /* BookDetailCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDetailCollectionViewCell.m; sourceTree = "<group>"; };
+		3F56D0411E6428FC007EA4BF /* BlockBaseButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockBaseButton.h; sourceTree = "<group>"; };
+		3F56D0421E6428FC007EA4BF /* BlockBaseButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlockBaseButton.m; sourceTree = "<group>"; };
+		3F56D04A1E642ACE007EA4BF /* UIColor+JING.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+JING.h"; sourceTree = "<group>"; };
+		3F56D04B1E642ACE007EA4BF /* UIColor+JING.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+JING.m"; sourceTree = "<group>"; };
 		5EE124CA95DD5F8593178E35 /* Pods-JingCFPDFReader.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JingCFPDFReader.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JingCFPDFReader/Pods-JingCFPDFReader.debug.xcconfig"; sourceTree = "<group>"; };
 		7A2823D2B8F3654C58392855 /* Pods_JingCFPDFReader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JingCFPDFReader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DCE1870017CDF591D54FD44 /* Pods-JingCFPDFReader.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JingCFPDFReader.release.xcconfig"; path = "Pods/Target Support Files/Pods-JingCFPDFReader/Pods-JingCFPDFReader.release.xcconfig"; sourceTree = "<group>"; };
@@ -333,6 +339,8 @@
 		3F147F5C1E63D307008D4AE3 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				3F56D04A1E642ACE007EA4BF /* UIColor+JING.h */,
+				3F56D04B1E642ACE007EA4BF /* UIColor+JING.m */,
 				3F147F5D1E63D32C008D4AE3 /* UIView+Frame.h */,
 				3F147F5E1E63D32C008D4AE3 /* UIView+Frame.m */,
 			);
@@ -389,6 +397,7 @@
 		3F147F651E63E8F1008D4AE3 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3F56D0401E6428C8007EA4BF /* Button */,
 				3F147F691E63E98F008D4AE3 /* cell */,
 			);
 			name = View;
@@ -412,6 +421,15 @@
 				3F56D03A1E64016C007EA4BF /* PdfDetailCollectionViewLayout.m */,
 			);
 			name = CollectionLayout;
+			sourceTree = "<group>";
+		};
+		3F56D0401E6428C8007EA4BF /* Button */ = {
+			isa = PBXGroup;
+			children = (
+				3F56D0411E6428FC007EA4BF /* BlockBaseButton.h */,
+				3F56D0421E6428FC007EA4BF /* BlockBaseButton.m */,
+			);
+			name = Button;
 			sourceTree = "<group>";
 		};
 		72094853A20D3C74803581BA /* Pods */ = {
@@ -619,6 +637,7 @@
 			files = (
 				3F147F301E602890008D4AE3 /* PdfImageManager.m in Sources */,
 				3F147F531E63C0F8008D4AE3 /* PdfSortingManager.m in Sources */,
+				3F56D0431E6428FC007EA4BF /* BlockBaseButton.m in Sources */,
 				3F147F6F1E63F260008D4AE3 /* BaseModel.m in Sources */,
 				3F147F4F1E604CA7008D4AE3 /* BookmarkDetailViewController.m in Sources */,
 				3F147F461E604C63008D4AE3 /* BooksListViewController.m in Sources */,
@@ -634,6 +653,7 @@
 				3F147F5F1E63D32C008D4AE3 /* UIView+Frame.m in Sources */,
 				3F147EFF1E60225C008D4AE3 /* AppDelegate.m in Sources */,
 				3F56D03E1E640381007EA4BF /* BookDetailCollectionViewCell.m in Sources */,
+				3F56D04C1E642ACE007EA4BF /* UIColor+JING.m in Sources */,
 				3F147EFC1E60225C008D4AE3 /* main.m in Sources */,
 				3F147F4C1E604C96008D4AE3 /* BookMarksViewController.m in Sources */,
 			);

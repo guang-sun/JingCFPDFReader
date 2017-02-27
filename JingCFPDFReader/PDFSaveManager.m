@@ -13,6 +13,9 @@
 @property (nonatomic,strong)NSString *fileName;
 @property (nonatomic,strong)NSString *bookName;
 
+@property (nonatomic,strong)NSMutableArray *bookMarksArray;
+@property (nonatomic,strong)NSMutableArray *bookMarksPageArray;
+
 @end
 @implementation PDFSaveManager
 - (instancetype)initWithBook:(PdfBookeModel *)book{
@@ -40,16 +43,58 @@
 - (NSString *)saveBookmarkKey{
     return [NSString stringWithFormat:@"%@Bookmark",self.fileName];
 }
+- (BOOL)isSaveBookmarkWithCurrentPage:(NSInteger)currentPage{
+    if (<#condition#>) {
+        <#statements#>
+    }
+    return [self.bookMarksPageArray containsObject:@(currentPage)];
+}
 - (void)savaBookmarksWithBookMark:(PdfBookMarkModel *)model{
-    NSMutableArray *array = [NSMutableArray arrayWithArray:[self allBookmarks]];
-    [array addObject:model];
-    [PDFSaveManager savaBookmarksWithName:self.saveBookmarkKey AndBookmarks:array];
+    [self bookMarksArrayAddWithIsRemove:NO AndBookMark:model];
+    [PDFSaveManager savaBookmarksWithName:self.saveBookmarkKey AndBookmarks:self.bookMarksArray];
 }
 - (NSArray<PdfBookMarkModel *> *)allBookmarks{
-    return [PDFSaveManager allBookmarksWithName:self.saveBookmarkKey];
+    return self.bookMarksArray;
 }
+- (void)removeBookmarksWithBookMark:(PdfBookMarkModel *)model{
+    [self bookMarksArrayAddWithIsRemove:YES AndBookMark:model];
+    [PDFSaveManager savaBookmarksWithName:self.saveBookmarkKey AndBookmarks:self.bookMarksArray];
 
-
+}
+- (void)bookMarksArrayAddWithIsRemove:(BOOL)remove AndBookMark:(PdfBookMarkModel *)model{
+    if (remove) {
+        NSInteger index = [self.bookMarksPageArray indexOfObject:model.pageNumber];
+        if (index != NSNotFound) {
+            [self.bookMarksArray removeObjectAtIndex:index];
+            [self.bookMarksPageArray removeObjectAtIndex:index];
+        }
+    }else{
+        [self.bookMarksArray addObject:model];
+        [self.bookMarksPageArray addObject:model.pageNumber];
+    }
+}
+#pragma  mark get
+- (void)createrArray{
+    _bookMarksArray = [NSMutableArray array];
+    _bookMarksPageArray = [NSMutableArray array];
+    NSArray *array = [PDFSaveManager allBookmarksWithName:self.saveBookmarkKey];
+    for (PdfBookMarkModel *bookMark in array) {
+        [_bookMarksArray addObject:bookMark];
+        [_bookMarksPageArray addObject:bookMark.pageNumber];
+    }
+}
+- (NSMutableArray *)bookMarksArray{
+    if (!_bookMarksArray) {
+        [self createrArray];
+    }
+    return _bookMarksArray;
+}
+- (NSMutableArray *)bookMarksPageArray{
+    if (!_bookMarksPageArray) {
+        [self createrArray];
+    }
+    return _bookMarksPageArray;
+}
 #pragma  mark 静态方法
 // 保存最后阅读的书籍
 + (NSString *)BookNameKey{
@@ -65,11 +110,10 @@
     return book;
 }
 
-
-
 + (void)savePageWithName:(NSString *)name AndCurrentPage:(NSInteger)currentPage{
     [self UserDefaultsSaveOBJ:@(currentPage) ForKey:name];
 }
+
 + (NSInteger)currentPageWithName:(NSString *)name{
     NSNumber *num = [self UserDefaultsObjForKey:name];
     if (!num) {
@@ -78,7 +122,6 @@
     }
     return num.integerValue;
 }
-
 
 
 + (void)savaBookmarksWithName:(NSString *)name AndBookmarks:(NSArray *)bookmarksArray{
@@ -91,8 +134,6 @@
     return bookmarksArray;
 }
 
-
-
 //save
 + (void)UserDefaultsSaveOBJ:(id)obj ForKey:(NSString *)key{
     [[NSUserDefaults standardUserDefaults]setObject:obj forKey:key];
@@ -101,4 +142,7 @@
 + (id)UserDefaultsObjForKey:(NSString *)key{
     return [[NSUserDefaults standardUserDefaults] objectForKey:key];
 }
+
+
+
 @end

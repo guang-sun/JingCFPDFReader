@@ -26,7 +26,7 @@
     if (!_showImageView) {
         _showImageView = [[UIImageView alloc] init];
         _showImageView.contentMode = UIViewContentModeScaleAspectFit;
-        _showImageView.backgroundColor = [UIColor redColor];
+        _showImageView.backgroundColor = [UIColor whiteColor];
     }
     return _showImageView;
 }
