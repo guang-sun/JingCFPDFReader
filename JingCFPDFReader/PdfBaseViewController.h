@@ -12,4 +12,7 @@
 #import "PdfBookMarkModel.h"
 @interface PdfBaseViewController : UIViewController
 @property (nonatomic,strong)NSString *navTitle;
+
+//所有的 页面的桥都是这个
+@property (nonatomic,strong)PdfBookeModel *book;
 @end

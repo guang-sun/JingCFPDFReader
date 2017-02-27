@@ -10,5 +10,4 @@
 @class PdfBookeModel;
 @interface BookDetailViewController : PdfBaseViewController
 //图书详情
-@property (nonatomic,strong)PdfBookeModel *book;
 @end

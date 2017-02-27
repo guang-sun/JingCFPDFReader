@@ -10,6 +10,4 @@
 
 @interface BookmarkDetailViewController : PdfBaseViewController
 //书签详情
-@property (nonatomic,strong)PdfBookMarkModel *bookMark;
-
 @end

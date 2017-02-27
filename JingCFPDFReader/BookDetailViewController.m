@@ -9,6 +9,7 @@
 #import "BookDetailViewController.h"
 #import "PDFSaveManager.h"
 #import "PdfBookeModel.h"
+#import "PdfBookMarkModel.h"
 #import "PdfDetailCollectionViewLayout.h"
 #import "BookDetailCollectionViewCell.h"
 #import "PdfImageManager.h"
@@ -18,6 +19,7 @@
 @property (nonatomic,strong)PdfImageManager *pdfAdapterManager;
 @property (nonatomic,strong)PDFSaveManager *pdfSaveManager;
 @property (nonatomic,strong)UIImageView *currentImageView;
+@property (nonatomic,assign)NSInteger currentPage;
 @end
 
 @implementation BookDetailViewController
@@ -32,15 +34,25 @@
 }
 - (void)goBeforeReadPlace{
     NSInteger currentPage = [self.pdfSaveManager currentPage];
-    NSIndexPath *index = [NSIndexPath indexPathForItem:currentPage-1 inSection:0];
+    self.currentPage = currentPage-1;
+    NSIndexPath *index = [NSIndexPath indexPathForItem:self.currentPage inSection:0];
     [self.collectionView scrollToItemAtIndexPath:index atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
 }
-
+#pragma mark 辅助方法
+- (void)saveBookMarkWithPage:(NSInteger)page AndIntroduction:(NSString *)introduction{
+    PdfBookMarkModel *bookMark = [PdfBookMarkModel mj_objectWithKeyValues:@{
+                                                                            @"":@(page),
+                                                                            @"introduction":introduction
+                                                                            }];
+    [self.pdfSaveManager savaBookmarksWithBookMark:bookMark];
+}
 #pragma mark collectionDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     NSInteger currentPage = scrollView.contentOffset.x/scrollView.width;
     //存储 当前看到第几页
     [self.pdfSaveManager savePageCurrentPage:currentPage+1];
+    //存储书签的时候用
+    self.currentPage = currentPage;
 }
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
