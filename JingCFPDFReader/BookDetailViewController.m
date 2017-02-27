@@ -27,6 +27,12 @@
     self.navTitle = [NSString stringWithFormat:@"阅读%@",self.book.nameString];
     [self.view addSubview:self.collectionView];
     // Do any additional setup after loading the view.
+    [self goBeforeReadPlace];
+}
+- (void)goBeforeReadPlace{
+    NSInteger currentPage = [self.pdfSaveManager currentPage];
+    NSIndexPath *index = [NSIndexPath indexPathForItem:currentPage-1 inSection:0];
+    [self.collectionView scrollToItemAtIndexPath:index atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
 }
 #pragma mark collectionDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
