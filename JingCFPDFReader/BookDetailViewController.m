@@ -12,12 +12,12 @@
 #import "PdfDetailCollectionViewLayout.h"
 #import "BookDetailCollectionViewCell.h"
 #import "PdfImageManager.h"
-@interface BookDetailViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface BookDetailViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UIGestureRecognizerDelegate>
 @property (nonatomic,strong)UICollectionView *collectionView;
 @property (nonatomic,strong)PdfDetailCollectionViewLayout *collectionLayout;
 @property (nonatomic,strong)PdfImageManager *pdfAdapterManager;
 @property (nonatomic,strong)PDFSaveManager *pdfSaveManager;
-
+@property (nonatomic,strong)UIImageView *currentImageView;
 @end
 
 @implementation BookDetailViewController
@@ -28,12 +28,14 @@
     [self.view addSubview:self.collectionView];
     // Do any additional setup after loading the view.
     [self goBeforeReadPlace];
+    
 }
 - (void)goBeforeReadPlace{
     NSInteger currentPage = [self.pdfSaveManager currentPage];
     NSIndexPath *index = [NSIndexPath indexPathForItem:currentPage-1 inSection:0];
     [self.collectionView scrollToItemAtIndexPath:index atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
 }
+
 #pragma mark collectionDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     NSInteger currentPage = scrollView.contentOffset.x/scrollView.width;
@@ -104,3 +106,95 @@
 */
 
 @end
+#pragma mark tap
+//    [self addAllGesture];
+//-(void)addAllGesture
+//{
+//    //捏合手势
+//    UIPinchGestureRecognizer * pinGesture = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(handlePinGesture:)];
+//    [self.view addGestureRecognizer:pinGesture];
+//    //拖动手势
+//    UIPanGestureRecognizer * panGesture = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)];
+//    [self.view addGestureRecognizer:panGesture];
+//}
+//-(void)handlePinGesture:(UIPinchGestureRecognizer *)pinGesture
+//{
+//    UIView * view = self.currentImageView;
+//    if(pinGesture.state == UIGestureRecognizerStateBegan || pinGesture.state == UIGestureRecognizerStateChanged)
+//    {
+//        view.transform = CGAffineTransformScale(_imageViewScale.transform, pinGesture.scale,pinGesture.scale);
+//        pinGesture.scale = 1.0;
+//    }
+//    else if(pinGesture.state == UIGestureRecognizerStateEnded)
+//    {
+//        lastScale = 1.0;
+//        CGFloat ration =  view.frame.size.width /self.OriginalFrame.size.width;
+//        if(ration>_scaleRation) // 缩放倍数 > 自定义的最大倍数
+//        {
+//            CGRect newFrame =CGRectMake(0, 0, self.OriginalFrame.size.width * _scaleRation, self.OriginalFrame.size.height * _scaleRation);
+//            view.frame = newFrame;
+//        }else if (self.isHorizontalChart&&view.frame.size.height< self.OriginalFrame.size.height){//横图 且 当前的height < OriginalFrame.height
+//            view.frame = self.OriginalFrame;
+//
+//        }else if(!self.isHorizontalChart&&view.frame.size.width< self.OriginalFrame.size.width){//竖图 且 当前的width < OriginalFrame.width
+//            view.frame = self.OriginalFrame;
+//        }
+//        //        else if (view.frame.size.width < self.circularFrame.size.width && self.OriginalFrame.size.width <= self.OriginalFrame.size.height)
+//        //        { //横图
+//        //            view.frame = [self handelWidthLessHeight:view];
+//        //            view.frame = [self handleScale:view];
+//        //        }
+//        //        else if(view.frame.size.height< self.circularFrame.size.height && self.OriginalFrame.size.height <= self.OriginalFrame.size.width)
+//        //        { //竖图
+//        //            view.frame =[self handleHeightLessWidth:view];
+//        //            view.frame = [self handleScale:view];
+//        //        }
+//        else
+//        {
+//            view.frame = [self handleScale:view];
+//        }
+//        self.currentFrame = view.frame;
+//    }
+//}
+
+//-(void)handlePanGesture:(UIPanGestureRecognizer *)panGesture
+//{
+//    UIView * view = _imageView;
+//
+//    if(panGesture.state == UIGestureRecognizerStateBegan || panGesture.state == UIGestureRecognizerStateChanged)
+//    {
+//        CGPoint translation = [panGesture translationInView:view.superview];
+//        [view setCenter:CGPointMake(view.center.x + translation.x, view.center.y + translation.y)];
+//
+//        [panGesture setTranslation:CGPointZero inView:view.superview];
+//    }
+//    else if ( panGesture.state == UIGestureRecognizerStateEnded)
+//    {
+//        CGRect currentFrame = view.frame;
+//        //向右滑动 并且超出裁剪范围后
+//        if(currentFrame.origin.x >= self.circularFrame.origin.x)
+//        {
+//            currentFrame.origin.x =self.circularFrame.origin.x;
+//        }
+//        //向下滑动 并且超出裁剪范围后
+//        if(currentFrame.origin.y >= self.circularFrame.origin.y)
+//        {
+//            currentFrame.origin.y = self.circularFrame.origin.y;
+//        }
+//        //向左滑动 并且超出裁剪范围后
+//        if(currentFrame.size.width + currentFrame.origin.x < self.circularFrame.origin.x + self.circularFrame.size.width)
+//        {
+//            CGFloat movedLeftX =fabs(currentFrame.size.width + currentFrame.origin.x -(self.circularFrame.origin.x + self.circularFrame.size.width));
+//            currentFrame.origin.x += movedLeftX;
+//        }
+//        //向上滑动 并且超出裁剪范围后
+//        if(currentFrame.size.height+currentFrame.origin.y < self.circularFrame.origin.y + self.circularFrame.size.height)
+//        {
+//            CGFloat moveUpY =fabs(currentFrame.size.height + currentFrame.origin.y -(self.circularFrame.origin.y + self.circularFrame.size.height));
+//            currentFrame.origin.y += moveUpY;
+//        }
+//        [UIView animateWithDuration:0.05 animations:^{
+//            [view setFrame:currentFrame];
+//        }];
+//    }
+//}
