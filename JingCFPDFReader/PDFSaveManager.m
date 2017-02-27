@@ -56,10 +56,13 @@
     return @"KEY_BOOK_SAVE_KEY";
 }
 + (void)SaveReadBook:(PdfBookeModel *)book{
-    [self UserDefaultsSaveOBJ:book ForKey:[self BookNameKey]];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:book];
+    [self UserDefaultsSaveOBJ:data ForKey:[self BookNameKey]];
 }
 + (PdfBookeModel *)LastReadBookName{
-    return [self UserDefaultsObjForKey:[self BookNameKey]];
+    NSData *data =  [self UserDefaultsObjForKey:[self BookNameKey]];
+    PdfBookeModel *book = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    return book;
 }
 
 
@@ -79,10 +82,13 @@
 
 
 + (void)savaBookmarksWithName:(NSString *)name AndBookmarks:(NSArray *)bookmarksArray{
-    [self UserDefaultsSaveOBJ:bookmarksArray ForKey:name];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:bookmarksArray];
+    [self UserDefaultsSaveOBJ:data ForKey:name];
 }
 + (NSArray *)allBookmarksWithName:(NSString *)name{
-    return [self UserDefaultsObjForKey:name];
+    NSData *data = [self UserDefaultsObjForKey:name];
+    NSArray *bookmarksArray = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    return bookmarksArray;
 }
 
 

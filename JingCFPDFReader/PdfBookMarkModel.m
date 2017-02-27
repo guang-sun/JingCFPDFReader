@@ -15,12 +15,13 @@ static NSString * const KEY_BOOKMARK_INTRODUCTION = @"bookmark_introduction";
 - (void)encodeWithCoder:(NSCoder *)aCoder{
     [aCoder encodeObject:self.pageNumber forKey:KEY_BOOKMARK_PAGENAME];
     [aCoder encodeObject:self.introduction forKey:KEY_BOOKMARK_INTRODUCTION];
-
 }
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder{
-    PdfBookMarkModel *model = [[PdfBookMarkModel alloc] init];
-    model.pageNumber = [aDecoder decodeObjectForKey:KEY_BOOKMARK_PAGENAME];
-    model.introduction = [aDecoder decodeObjectForKey:KEY_BOOKMARK_INTRODUCTION];
-    return model;
+    self = [super init];
+    if(self){
+        self.pageNumber = [aDecoder decodeObjectForKey:KEY_BOOKMARK_PAGENAME];
+        self.introduction = [aDecoder decodeObjectForKey:KEY_BOOKMARK_INTRODUCTION];
+    }
+    return self;
 }
 @end

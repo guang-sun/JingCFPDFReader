@@ -16,6 +16,8 @@
 @property (nonatomic,strong)UICollectionView *collectionView;
 @property (nonatomic,strong)PdfDetailCollectionViewLayout *collectionLayout;
 @property (nonatomic,strong)PdfImageManager *pdfAdapterManager;
+@property (nonatomic,strong)PDFSaveManager *pdfSaveManager;
+
 @end
 
 @implementation BookDetailViewController
@@ -30,6 +32,7 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     NSInteger currentPage = scrollView.contentOffset.x/scrollView.width;
     //存储 当前看到第几页
+    [self.pdfSaveManager savePageCurrentPage:currentPage+1];
 }
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
@@ -72,6 +75,12 @@
         _pdfAdapterManager = [[PdfImageManager alloc] initWithLocationFileName:self.book.fileNameString];
     }
     return _pdfAdapterManager;
+}
+- (PDFSaveManager *)pdfSaveManager{
+    if (!_pdfSaveManager) {
+        _pdfSaveManager = [[PDFSaveManager alloc] initWithBook:self.book];
+    }
+    return _pdfSaveManager;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -14,15 +14,18 @@ static NSString * const KEY_BOOKNAME_FILENAME = @"bookname_fileNameString";
 @implementation PdfBookeModel
 
 #pragma mark - NSCoding
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder{
+    self = [super init];
+    if(self){
+        self.nameString = [aDecoder decodeObjectForKey:KEY_BOOKNAME_NAME];
+        self.fileNameString = [aDecoder decodeObjectForKey:KEY_BOOKNAME_FILENAME];
+    }
+    return self;
+}
+
 - (void)encodeWithCoder:(NSCoder *)aCoder{
     [aCoder encodeObject:self.nameString forKey:KEY_BOOKNAME_NAME];
     [aCoder encodeObject:self.fileNameString forKey:KEY_BOOKNAME_FILENAME];
-    
 }
-- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder{
-    PdfBookeModel *model = [[PdfBookeModel alloc] init];
-    model.nameString = [aDecoder decodeObjectForKey:KEY_BOOKNAME_NAME];
-    model.fileNameString = [aDecoder decodeObjectForKey:KEY_BOOKNAME_FILENAME];
-    return model;
-}
+
 @end

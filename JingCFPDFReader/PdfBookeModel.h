@@ -8,7 +8,7 @@
 
 #import "BaseModel.h"
 
-@interface PdfBookeModel : BaseModel
+@interface PdfBookeModel : BaseModel<NSCoding>
 @property (nonatomic,strong) NSString *nameString;
 @property (nonatomic,strong) NSString *fileNameString;
 
