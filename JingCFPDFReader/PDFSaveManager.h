@@ -23,6 +23,8 @@
 - (NSInteger)currentPage;
 
 //书签
+- (BOOL)isSaveBookmarkWithCurrentPage:(NSInteger)currentPage;
 - (void)savaBookmarksWithBookMark:(PdfBookMarkModel *)model;
 - (NSArray<PdfBookMarkModel *> *)allBookmarks;
+- (void)removeBookmarksWithBookMark:(PdfBookMarkModel *)model;
 @end

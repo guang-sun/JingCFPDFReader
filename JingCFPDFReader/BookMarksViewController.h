@@ -10,6 +10,4 @@
 
 @interface BookMarksViewController : PdfBaseViewController
 //书签列表
-@property (nonatomic,strong)PdfBookeModel *book;
-
 @end

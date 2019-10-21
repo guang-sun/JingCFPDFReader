@@ -9,7 +9,6 @@
 #import "PdfBaseViewController.h"
 
 @interface BookmarkDetailViewController : PdfBaseViewController
-//书签详情
+//书签详情(点击的哪个书签)
 @property (nonatomic,strong)PdfBookMarkModel *bookMark;
-
 @end

@@ -20,10 +20,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     PdfBookeModel *book = [PDFSaveManager LastReadBookName];
-    if (!book) {//测试
-        book = [PdfBookeModel mj_objectWithKeyValues:@{@"nameString":@"第一行代码",
-                                                       @"fileNameString":@"Android1"}];
-    }
     UINavigationController *con = [self bookListViewController];
     self.window.rootViewController = con;
     [self.window makeKeyWindow];

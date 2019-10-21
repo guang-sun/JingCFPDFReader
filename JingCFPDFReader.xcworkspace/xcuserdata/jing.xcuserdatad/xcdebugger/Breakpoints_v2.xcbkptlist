@@ -9,13 +9,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "JingCFPDFReader/AppDelegate.m"
-            timestampString = "509875588.564315"
+            filePath = "JingCFPDFReader/BookDetailViewController.m"
+            timestampString = "509888568.918779"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
-            landmarkName = "-application:didFinishLaunchingWithOptions:"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "-isAddBookMark:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingCFPDFReader/PDFSaveManager.m"
+            timestampString = "509888584.205341"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "-isSaveBookmarkWithCurrentPage:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

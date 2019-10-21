@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class PdfBookeModel;
 @interface BookListCollectionViewCell : UICollectionViewCell
-@property (nonatomic,strong) UIImageView *showImageView;
-@property (nonatomic,strong) UILabel *nameLabel;
+@property (nonatomic,strong) PdfBookeModel *book;//书籍列表
+
+@property (nonatomic,strong) UIImage *showImage;//书签列表
+@property (nonatomic,strong) NSString *showName;
 @end

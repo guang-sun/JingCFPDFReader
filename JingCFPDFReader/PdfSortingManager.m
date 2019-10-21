@@ -8,12 +8,12 @@
 //
 
 #import "PdfSortingManager.h"
-
+#import "PdfBookMarkModel.h"
 @implementation PdfSortingManager
 + (NSArray *)PdfBookmarkSortingWithArray:(NSArray *)bookMarkArray{
     NSArray *sourtingResultArray =
     [bookMarkArray sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-        return (((NSNumber *)obj1).integerValue > ((NSNumber *)obj2).integerValue);
+        return (((PdfBookMarkModel *)obj1).pageNumber.integerValue > ((PdfBookMarkModel *)obj2).pageNumber.integerValue);
     }];
     return sourtingResultArray;
 }

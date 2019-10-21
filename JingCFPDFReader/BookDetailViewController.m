@@ -7,17 +7,21 @@
 //
 
 #import "BookDetailViewController.h"
-#import "PDFSaveManager.h"
-#import "PdfBookeModel.h"
+#import "BookMarksViewController.h"
 #import "PdfDetailCollectionViewLayout.h"
 #import "BookDetailCollectionViewCell.h"
 #import "PdfImageManager.h"
+#import "PDFSaveManager.h"
+
 @interface BookDetailViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UIGestureRecognizerDelegate>
 @property (nonatomic,strong)UICollectionView *collectionView;
 @property (nonatomic,strong)PdfDetailCollectionViewLayout *collectionLayout;
 @property (nonatomic,strong)PdfImageManager *pdfAdapterManager;
 @property (nonatomic,strong)PDFSaveManager *pdfSaveManager;
 @property (nonatomic,strong)UIImageView *currentImageView;
+@property (nonatomic,assign)NSInteger currentIndex;
+@property (nonatomic,strong)UIBarButtonItem *addBookMarkButton;
+//@property (nonatomic,strong)
 @end
 
 @implementation BookDetailViewController
@@ -25,22 +29,72 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navTitle = [NSString stringWithFormat:@"阅读%@",self.book.nameString];
+    self.navigationItem.rightBarButtonItems = [self createdRightBarButtonItems];
     [self.view addSubview:self.collectionView];
     // Do any additional setup after loading the view.
     [self goBeforeReadPlace];
     
 }
+
 - (void)goBeforeReadPlace{
     NSInteger currentPage = [self.pdfSaveManager currentPage];
-    NSIndexPath *index = [NSIndexPath indexPathForItem:currentPage-1 inSection:0];
+    [self isAddBookMark:currentPage];
+    self.currentIndex = currentPage-1;
+    NSIndexPath *index = [NSIndexPath indexPathForItem:self.currentIndex inSection:0];
     [self.collectionView scrollToItemAtIndexPath:index atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
 }
-
+#pragma mark 辅助方法
+- (UIBarButtonItem *)buttonIteamWithNorMorImageString:(NSString *)normalImageString AndSelectImageString:(NSString *)selectImageString AndAction:(ButtonActionBlock)block{
+    BlockBaseButton *button = [[BlockBaseButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    if (normalImageString) {
+        [button setImage:[UIImage imageNamed:normalImageString] forState:UIControlStateNormal];
+    }
+    if (selectImageString) {
+        [button setImage:[UIImage imageNamed:selectImageString] forState:UIControlStateSelected];
+    }
+    [button addAction:block];
+    UIBarButtonItem *iteam = [[UIBarButtonItem alloc] initWithCustomView:button];
+    return iteam;
+}
+- (void)isAddBookMark:(NSInteger)page{
+   ((UIButton *)self.addBookMarkButton.customView).selected = [self.pdfSaveManager isSaveBookmarkWithCurrentPage:page];
+}
+//BookMarks
+//Reader-Mark-N
+//Reader-Mark-Y
+- (NSArray *)createdRightBarButtonItems{
+    @WeakObj(self);
+    self.addBookMarkButton = [self buttonIteamWithNorMorImageString:@"Reader-Mark-N" AndSelectImageString:@"Reader-Mark-Y" AndAction:^(BlockBaseButton *button) {
+        [selfWeak saveBookMarkWithPage:selfWeak.currentIndex+1 AndIntroduction:@"ssss" AndIsRem:button.selected];
+        button.selected = !button.selected;
+    }];
+    UIBarButtonItem *bookMarkButtonList = [self buttonIteamWithNorMorImageString:@"BookMarks" AndSelectImageString:nil AndAction:^(BlockBaseButton *button) {
+        BookMarksViewController *bookmarks = [[BookMarksViewController alloc] init];
+        bookmarks.book = selfWeak.book;
+        [selfWeak.navigationController pushViewController:bookmarks animated:YES ];
+    }];
+    return @[self.addBookMarkButton,bookMarkButtonList];
+}
+- (void)saveBookMarkWithPage:(NSInteger)page AndIntroduction:(NSString *)introduction AndIsRem:(BOOL)isRemove{
+    PdfBookMarkModel *bookMark = [PdfBookMarkModel mj_objectWithKeyValues:@{
+                                                                            @"pageNumber":@(page),
+                                                                            @"introduction":introduction
+                                                                            }];
+    if (isRemove) {
+        [self.pdfSaveManager removeBookmarksWithBookMark:bookMark];
+    }else{
+        [self.pdfSaveManager savaBookmarksWithBookMark:bookMark];
+    }
+}
 #pragma mark collectionDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     NSInteger currentPage = scrollView.contentOffset.x/scrollView.width;
     //存储 当前看到第几页
     [self.pdfSaveManager savePageCurrentPage:currentPage+1];
+    //存储书签的时候用
+    self.currentIndex = currentPage;
+    //是否已经添加
+    [self isAddBookMark:currentPage+1];
 }
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
@@ -68,7 +122,6 @@
         [_collectionView registerClass:[BookDetailCollectionViewCell class] forCellWithReuseIdentifier:@"BookDetailCollectionViewCell"];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
-        _collectionView.backgroundColor = [UIColor whiteColor];
     }
     return _collectionView;
 }
